@@ -4,6 +4,8 @@ import 'package:gitmago/features/auth/presentation/widgets/auth_button.dart';
 import 'package:gitmago/providers/navigation_provider.dart';
 import 'package:gitmago/theme/colors.dart';
 import 'package:provider/provider.dart';
+import 'package:gitmago/features/auth/data/repositories/auth_repository.dart';
+import 'package:gitmago/features/auth/data/models/login_request.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,6 +17,26 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final AuthRepository _authRepository = AuthRepository();
+
+  Future<void> _handleLogin() async {
+    final request = LoginRequest(
+      username: emailController.text,
+      password: passwordController.text,
+    );
+
+    final success = await _authRepository.login(request);
+
+    if (success) {
+      Provider.of<NavigationProvider>(
+        context,
+        listen: false,
+      ).setRoute('/main', context);
+    } else {
+      // 에러 처리
+      print('로그인 실패');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,15 +116,7 @@ class _LoginPageState extends State<LoginPage> {
                           controller: passwordController,
                         ),
                         const SizedBox(height: 20),
-                        AuthButton(
-                          text: '로그인',
-                          onPressed: () {
-                            Provider.of<NavigationProvider>(
-                              context,
-                              listen: false,
-                            ).setRoute('/main', context);
-                          },
-                        ),
+                        AuthButton(text: '로그인', onPressed: _handleLogin),
                         const SizedBox(height: 20),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
