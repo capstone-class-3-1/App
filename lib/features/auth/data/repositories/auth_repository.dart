@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import '../models/login_request.dart';
 
 class AuthRepository {
-  final String baseUrl = 'http://192.168.56.1:8000/api';
+  final String baseUrl = dotenv.env['API_BASE_URL'] ?? 'default_value';
 
   Future<bool> login(LoginRequest request) async {
     try {
