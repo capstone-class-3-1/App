@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gitmago/theme/colors.dart';
-import 'package:gitmago/features/home/presentation/widgets/tab_bar_delegate.dart';
+import 'package:gitmago/features/community/widgets/tab_bar_delegate.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -23,12 +23,55 @@ class HomePage extends StatelessWidget {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('홈'),
+                    Builder(
+                      builder: (context) {
+                        final FlexibleSpaceBarSettings? settings =
+                            context
+                                .dependOnInheritedWidgetOfExactType<
+                                  FlexibleSpaceBarSettings
+                                >();
+                        final double opacity =
+                            settings == null ||
+                                    settings.currentExtent <= settings.minExtent
+                                ? 0.0
+                                : ((settings.currentExtent -
+                                            settings.minExtent) /
+                                        (settings.maxExtent -
+                                            settings.minExtent))
+                                    .clamp(0.0, 1.0);
+
+                        return Opacity(
+                          opacity: opacity,
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: "GIT",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.primaryColor,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: "MAGO",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.textColor2,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                     Row(
                       children: [
-                        Icon(Icons.search),
+                        Icon(Icons.search, color: AppColors.textColor2),
                         SizedBox(width: 10),
-                        Icon(Icons.notifications),
+                        Icon(Icons.notifications, color: AppColors.textColor2),
                       ],
                     ),
                   ],

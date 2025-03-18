@@ -7,7 +7,9 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => NavigationProvider()),  // Provider 등록
+        ChangeNotifierProvider(
+          create: (_) => NavigationProvider(),
+        ), // Provider 등록
       ],
       child: const GitmagoApp(),
     ),

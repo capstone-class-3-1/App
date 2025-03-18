@@ -6,6 +6,7 @@ import 'package:gitmago/features/main/main_page.dart';
 import 'package:gitmago/features/splash/presentation/splash_page.dart';
 import 'package:gitmago/routes.dart';
 import 'package:provider/provider.dart';
+import 'package:gitmago/theme/colors.dart';
 import 'providers/navigation_provider.dart';
 
 class GitmagoApp extends StatelessWidget {
@@ -23,6 +24,18 @@ class GitmagoApp extends StatelessWidget {
               style: IconButton.styleFrom(
                 highlightColor: Colors.transparent,
                 overlayColor: Colors.transparent,
+              ),
+            ),
+            bottomNavigationBarTheme: BottomNavigationBarThemeData(
+              selectedItemColor: AppColors.textColor,
+              unselectedItemColor: AppColors.textColorOpacity,
+              selectedLabelStyle: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+              ),
+              unselectedLabelStyle: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w300,
               ),
             ),
           ),

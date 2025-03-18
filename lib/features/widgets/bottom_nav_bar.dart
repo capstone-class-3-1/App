@@ -20,11 +20,11 @@ class BottomNavBar extends StatelessWidget {
       items: [
         BottomNavigationBarItem(
           icon: Padding(
-            padding: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(top: 10, bottom: 5),
             child: SvgPicture.asset(
               currentIndex == 0
-                  ? 'assets/icons/comment-alt-solid.svg'
-                  : 'assets/icons/comment-alt.svg',
+                  ? 'assets/icons/comment/comment-alt-solid.svg'
+                  : 'assets/icons/comment/comment-alt.svg',
               width: 24,
               height: 24,
             ),
@@ -33,12 +33,14 @@ class BottomNavBar extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Padding(
-            padding: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(top: 10, bottom: 5),
             child: SvgPicture.asset(
               currentIndex == 1
-                  ? 'assets/icons/home-solid.svg'
-                  : 'assets/icons/home.svg',
+                  ? 'assets/icons/home/home-solid.svg'
+                  : 'assets/icons/home/home.svg',
+
               width: 24,
+
               height: 24,
             ),
           ),
@@ -46,11 +48,11 @@ class BottomNavBar extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Padding(
-            padding: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(top: 10, bottom: 5),
             child: SvgPicture.asset(
               currentIndex == 2
-                  ? 'assets/icons/user-solid.svg'
-                  : 'assets/icons/user.svg',
+                  ? 'assets/icons/user/user-solid.svg'
+                  : 'assets/icons/user/user.svg',
               width: 24,
               height: 24,
             ),
