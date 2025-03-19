@@ -20,6 +20,11 @@ class _LoginPageState extends State<LoginPage> {
   final AuthRepository _authRepository = AuthRepository();
 
   Future<void> _handleLogin() async {
+    Provider.of<NavigationProvider>(
+      context,
+      listen: false,
+    ).setRoute('/main', context);
+
     final request = LoginRequest(
       username: emailController.text,
       password: passwordController.text,
@@ -33,7 +38,6 @@ class _LoginPageState extends State<LoginPage> {
         listen: false,
       ).setRoute('/main', context);
     } else {
-      // 에러 처리
       print('로그인 실패');
     }
   }

@@ -15,7 +15,6 @@ class AuthRepository {
       );
 
       if (response.statusCode == 200) {
-        // TODO: 토큰 저장 등 추가 처리
         return true;
       }
       return false;
