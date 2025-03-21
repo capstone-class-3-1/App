@@ -117,6 +117,7 @@ class CommunityPage extends StatelessWidget {
               SliverPersistentHeader(
                 delegate: TabBarDelegate(
                   TabBar(
+                    dividerColor: Colors.transparent,
                     tabAlignment: TabAlignment.start,
                     padding: EdgeInsets.only(left: 10.0),
                     labelColor: AppColors.textColor2,
