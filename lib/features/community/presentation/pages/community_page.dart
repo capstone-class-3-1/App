@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gitmago/features/community/widgets/tab_bar_delegate.dart';
+import 'package:gitmago/features/community/presentation/pages/post_page.dart';
+import 'package:gitmago/features/community/presentation/pages/qa_page.dart';
+import 'package:gitmago/features/community/presentation/pages/recruitment_page.dart';
+import 'package:gitmago/features/community/presentation/pages/event_page.dart';
 import 'package:gitmago/theme/colors.dart';
 
 class CommunityPage extends StatelessWidget {
@@ -8,7 +13,7 @@ class CommunityPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3, // 탭 개수를 4개로 변경
+      length: 4, // 탭 개수를 4개로 변경
       child: Scaffold(
         backgroundColor: AppColors.backgroundColor,
         body: NestedScrollView(
@@ -16,9 +21,9 @@ class CommunityPage extends StatelessWidget {
             return <Widget>[
               SliverAppBar(
                 backgroundColor: AppColors.secondaryColor,
-                expandedHeight: 60.0, // 높이를 100에서 60으로 줄임
+                expandedHeight: 60.0,
                 floating: true,
-                pinned: true, // 스크롤 시 AppBar가 고정되도록 변경
+                pinned: true,
                 snap: true,
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -111,18 +116,22 @@ class CommunityPage extends StatelessWidget {
               ),
               SliverPersistentHeader(
                 delegate: TabBarDelegate(
-                  const TabBar(
+                  TabBar(
                     tabAlignment: TabAlignment.start,
                     padding: EdgeInsets.only(left: 10.0),
                     labelColor: AppColors.textColor2,
-                    unselectedLabelColor: AppColors.textColor2,
                     indicatorSize: TabBarIndicatorSize.label,
-                    indicatorColor: AppColors.textColor2, // 선택된 탭 하단 표시 색상 변경
-                    isScrollable: true, // 탭이 많을 때 스크롤 가능하도록 설정
+                    indicatorColor: AppColors.textColor2,
+                    isScrollable: true,
                     labelPadding: EdgeInsets.symmetric(
-                      horizontal: 10.0,
+                      horizontal: 5.0,
                     ), // 탭 텍스트 사이의 여백 줄임
-                    tabs: [Tab(text: '추천'), Tab(text: '랭킹'), Tab(text: '모임')],
+                    tabs: [
+                      Tab(text: '게시글'),
+                      Tab(text: 'Q&A'),
+                      Tab(text: '모집'),
+                      Tab(text: '행사'),
+                    ],
                   ),
                 ),
                 pinned: true,
@@ -130,22 +139,7 @@ class CommunityPage extends StatelessWidget {
             ];
           },
           body: TabBarView(
-            children: [
-              // 추천 탭 내용
-              Container(color: Colors.white),
-              // 랭킹 탭 내용
-              ListView.builder(
-                itemCount: 20,
-                itemBuilder:
-                    (context, index) => ListTile(title: Text('랭킹 아이템 $index')),
-              ),
-              // 세일 탭 내용
-              ListView.builder(
-                itemCount: 20,
-                itemBuilder:
-                    (context, index) => ListTile(title: Text('세일 아이템 $index')),
-              ),
-            ],
+            children: [PostPage(), QAPage(), RecruitmentPage(), EventPage()],
           ),
         ),
       ),
