@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gitmago/features/community/presentation/pages/community_page.dart';
-import 'package:gitmago/features/profile/presentation/profile_page.dart';
+import 'package:gitmago/features/profile/presentation/page/profile_page.dart';
 import 'package:gitmago/features/widgets/bottom_nav_bar.dart';
 import 'package:gitmago/features/home/presentation/pages/home_page.dart';
 
