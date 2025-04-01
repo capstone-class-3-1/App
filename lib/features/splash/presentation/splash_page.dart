@@ -14,7 +14,6 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
 
-    // 3초 후 로그인 페이지로 이동
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         PageRouteBuilder(
