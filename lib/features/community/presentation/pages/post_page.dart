@@ -14,7 +14,7 @@ class PostPage extends StatelessWidget {
         itemBuilder: (context, index) {
           return Card(
             margin: const EdgeInsets.only(bottom: 16.0),
-            color: AppColors.secondaryColor,
+            color: AppColors.bottomBarColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12.0),
             ),

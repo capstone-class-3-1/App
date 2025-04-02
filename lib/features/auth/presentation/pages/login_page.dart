@@ -52,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: [
               Expanded(
-                flex: 1,
+                flex: 10,
                 child: Container(
                   width: double.infinity,
                   margin: const EdgeInsets.only(bottom: 20),
@@ -96,13 +96,13 @@ class _LoginPageState extends State<LoginPage> {
                           color: AppColors.textColor2,
                         ),
                       ),
-                      const SizedBox(height: 50),
+                      const SizedBox(height: 30),
                     ],
                   ),
                 ),
               ),
               Expanded(
-                flex: 1,
+                flex: 10,
                 child: Container(
                   // color: Colors.amber,
                   child: Padding(
@@ -139,46 +139,111 @@ class _LoginPageState extends State<LoginPage> {
               Expanded(
                 flex: 1,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                  child: Row(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "회원이 아니신가요?",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.textColorOpacity,
-                            ),
-                          ),
-                          InkWell(
-                            highlightColor: Colors.transparent,
-                            splashColor: Colors.transparent,
-                            onTap: () {
-                              Navigator.pushNamed(context, '/register');
-                            },
-                            child: Text(
-                              "회원가입하러 가기",
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.textColorOpacity,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          ),
-                        ],
+                      Expanded(
+                        child: Divider(
+                          color: AppColors.textColorOpacity,
+                          thickness: 0.5,
+                        ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Text(
+                          "간편 로그인",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: AppColors.textColorOpacity,
+                          ),
                         ),
-                        child: const SizedBox(height: 50),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: AppColors.textColorOpacity,
+                          thickness: 0.5,
+                        ),
                       ),
                     ],
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 10,
+                child: Container(
+                  // color: Colors.amber,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 10),
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black87,
+                            minimumSize: const Size(double.infinity, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/images/github_logo.png',
+                                scale: 20,
+                                color: Colors.white,
+                              ),
+                              SizedBox(width: 10),
+                              Text(
+                                'GitHub로 로그인',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Spacer(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "회원이 아니신가요?",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.textColorOpacity,
+                              ),
+                            ),
+                            InkWell(
+                              highlightColor: Colors.transparent,
+                              splashColor: Colors.transparent,
+                              onTap: () {
+                                Navigator.pushNamed(context, '/register');
+                              },
+                              child: Text(
+                                "회원가입하러 가기",
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.textColorOpacity,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom,
+                          ),
+                          child: const SizedBox(height: 50),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

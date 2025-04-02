@@ -11,7 +11,7 @@ class NotificationPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.secondaryColor,
         centerTitle: false,
-        leadingWidth: 16,
+        leadingWidth: 24,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);

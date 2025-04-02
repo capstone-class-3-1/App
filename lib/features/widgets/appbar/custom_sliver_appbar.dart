@@ -8,6 +8,7 @@ class CustomSliverAppBar extends StatelessWidget {
     this.floating = true,
     this.pinned = true,
     this.snap = true,
+    this.automaticallyImplyLeading = true,
     this.actions = const [],
   });
 
@@ -16,7 +17,7 @@ class CustomSliverAppBar extends StatelessWidget {
   final bool pinned;
   final bool snap;
   final List<Widget> actions; // 아이콘 리스트
-
+  final bool automaticallyImplyLeading;
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -25,6 +26,7 @@ class CustomSliverAppBar extends StatelessWidget {
       floating: floating,
       pinned: pinned,
       snap: snap,
+      actions: actions,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -69,9 +71,6 @@ class CustomSliverAppBar extends StatelessWidget {
                 ),
               );
             },
-          ),
-          Row(
-            children: actions, // 전달된 아이콘 리스트 사용
           ),
         ],
       ),
