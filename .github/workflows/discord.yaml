@@ -1,0 +1,16 @@
+name: Notify Discord
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  discord:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send message to Discord
+        run: |
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d "{\"content\": \"🔧 [${{ github.repository }}] 커밋됨!\n👤 ${{ github.actor }}\n💬 ${{ github.event.head_commit.message }}\n🔗 https://github.com/${{ github.repository }}/commit/${{ github.sha }}\"}" \
+               https://discord.com/api/webhooks/1363696136451264683/VPJz28yyOm-oihOyot8IHmNkjovKr9A1HqvXYzf2vvKZ8scyuSnf-iw-nJ-n-r3ueQOC

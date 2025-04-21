@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:gitmago/features/auth/presentation/pages/login_page.dart';
-import 'package:gitmago/features/auth/presentation/pages/register_page.dart';
-import 'package:gitmago/features/home/presentation/pages/home_page.dart';
-import 'package:gitmago/features/main/main_page.dart';
-import 'package:gitmago/features/splash/presentation/splash_page.dart';
+import 'package:gitmago/features/auth/auth_routes.dart';
+import 'package:gitmago/features/home/home_routes.dart';
+import 'package:gitmago/features/splash/splash_routes.dart';
+import 'package:gitmago/features/main/main_routes.dart';
 
 class AppRoutes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => const SplashPage());
+        return SplashRoutes.generateRoute(settings);
       case '/login':
-        return MaterialPageRoute(builder: (_) => const LoginPage());
       case '/register':
-        return MaterialPageRoute(builder: (_) => const RegisterPage());
-      case '/main':
-        return MaterialPageRoute(builder: (_) => MainPage());
+        return AuthRoutes.generateRoute(settings);
       case '/home':
-        return MaterialPageRoute(builder: (_) => const HomePage());
+        return HomeRoutes.generateRoute(settings);
+      case '/main':
+        return MainRoutes.generateRoute(settings);
       default:
         return MaterialPageRoute(
           builder:
