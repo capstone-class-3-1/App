@@ -11,7 +11,6 @@ class EventPage extends StatefulWidget {
 
 class _EventPageState extends State<EventPage> {
   int _currentIndex = 0;
-  final CarouselController _controller = CarouselController();
 
   final List<Map<String, String>> imageData = [
     {
