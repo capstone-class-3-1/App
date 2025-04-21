@@ -1,16 +1,7 @@
-name: Notify Discord
+- name: Send message to Discord
 
-on:
-  push:
-    branches: [main]
-
-jobs:
-  discord:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Send message to Discord
-        run: |
-          curl -H "Content-Type: application/json" \
-               -X POST \
-               -d "{\"content\": \"🔧 [${{ github.repository }}] 커밋됨!\n👤 ${{ github.actor }}\n💬 ${{ github.event.head_commit.message }}\n🔗 https://github.com/${{ github.repository }}/commit/${{ github.sha }}\"}" \
-               ${{ secrets.DISCORD_WEBHOOK }}
+  run: |
+    curl -H "Content-Type: application/json" \
+         -X POST \
+         -d "{\"content\": \"🚀 새 커밋! 작성자: ${{ github.actor }} / 메시지: ${{ github.event.head_commit.message }}\"}" \
+         ${{ secrets.DISCORD_WEBHOOK }}
