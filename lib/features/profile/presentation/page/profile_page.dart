@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gitmago/theme/colors.dart';
 import 'package:gitmago/features/widgets/appbar/custom_sliver_appbar.dart';
-import 'package:gitmago/features/widgets/notification/notification.dart';
 import 'package:gitmago/features/profile/presentation/page/setting_page.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -18,8 +17,6 @@ class ProfilePage extends StatelessWidget {
               actions: [
                 Row(
                   children: [
-                    AlertNotification(),
-                    SizedBox(width: 5),
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -32,6 +29,7 @@ class ProfilePage extends StatelessWidget {
                       behavior: HitTestBehavior.opaque,
                       child: Icon(Icons.settings, color: AppColors.textColor2),
                     ),
+                    SizedBox(width: 5),
                   ],
                 ),
                 SizedBox(width: 15),

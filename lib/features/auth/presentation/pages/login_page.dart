@@ -3,6 +3,7 @@ import 'package:gitmago/features/auth/presentation/widgets/login_form.dart';
 import 'package:gitmago/features/auth/presentation/widgets/auth_button.dart';
 import 'package:gitmago/providers/navigation_provider.dart';
 import 'package:gitmago/theme/colors.dart';
+import 'package:gitmago/widgets/custom_snackbar.dart';
 import 'package:provider/provider.dart';
 import 'package:gitmago/features/auth/data/repositories/auth_repository.dart';
 import 'package:gitmago/features/auth/data/models/login_request.dart';
@@ -20,11 +21,6 @@ class _LoginPageState extends State<LoginPage> {
   final AuthRepository _authRepository = AuthRepository();
 
   Future<void> _handleLogin() async {
-    Provider.of<NavigationProvider>(
-      context,
-      listen: false,
-    ).setRoute('/main', context);
-
     final request = LoginRequest(
       username: emailController.text,
       password: passwordController.text,
@@ -38,7 +34,21 @@ class _LoginPageState extends State<LoginPage> {
         listen: false,
       ).setRoute('/main', context);
     } else {
-      print('로그인 실패');
+      // Show error message
+      showDialog(
+        context: context,
+        builder:
+            (context) => AlertDialog(
+              title: Text('로그인 실패'),
+              content: Text('아이디 또는 비밀번호가 잘못되었습니다.'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text('확인'),
+                ),
+              ],
+            ),
+      );
     }
   }
 
@@ -125,9 +135,36 @@ class _LoginPageState extends State<LoginPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Text(
-                              "아이디 찾기 | 비밀번호 찾기",
-                              style: TextStyle(fontSize: 12),
+                            GestureDetector(
+                              onTap: () {
+                                CustomSnackbar.show(
+                                  context,
+                                  "beta. 아이디 찾기 기능은 현재 구현되지 않았습니다.",
+                                );
+                              },
+                              child: Text(
+                                "아이디 찾기",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ),
+                            Text(" | ", style: TextStyle(fontSize: 12)),
+                            GestureDetector(
+                              onTap: () {
+                                CustomSnackbar.show(
+                                  context,
+                                  "beta. 비밀번호 찾기 기능은 현재 구현되지 않았습니다.",
+                                );
+                              },
+                              child: Text(
+                                "비밀번호 찾기",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
                             ),
                           ],
                         ),

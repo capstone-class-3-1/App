@@ -8,7 +8,6 @@ import 'package:gitmago/theme/colors.dart';
 import 'package:gitmago/features/widgets/appbar/custom_sliver_appbar.dart';
 import 'package:gitmago/features/widgets/notification/notification.dart';
 import 'package:gitmago/features/search/presentation/search_page.dart';
-import 'package:gitmago/features/widgets/drawer/common_drawer.dart';
 
 class CommunityPage extends StatefulWidget {
   const CommunityPage({super.key});
@@ -26,24 +25,12 @@ class _CommunityPageState extends State<CommunityPage> {
       length: 4, // 탭 개수를 4개로 변경
       child: Scaffold(
         backgroundColor: AppColors.backgroundColor,
-        endDrawer: CommonDrawer(),
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               CustomSliverAppBar(
                 actions: [
-                  Row(
-                    children: [
-                      AlertNotification(),
-                      SizedBox(width: 5),
-                      InkWell(
-                        onTap: () {
-                          Scaffold.of(context).openEndDrawer();
-                        },
-                        child: Icon(Icons.menu, color: AppColors.textColor2),
-                      ),
-                    ],
-                  ),
+                  Row(children: [AlertNotification()]),
                   SizedBox(width: 15),
                 ],
               ),

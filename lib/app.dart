@@ -19,6 +19,7 @@ class GitmagoApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
+            scaffoldBackgroundColor: Colors.white,
             fontFamily: 'SUITE',
             iconButtonTheme: IconButtonThemeData(
               style: IconButton.styleFrom(
