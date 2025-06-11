@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gitmago/features/auth/presentation/widgets/login_form.dart';
-import 'package:gitmago/features/auth/presentation/widgets/auth_button.dart';
-import 'package:gitmago/providers/navigation_provider.dart';
-import 'package:gitmago/theme/colors.dart';
-import 'package:gitmago/widgets/custom_snackbar.dart';
-import 'package:provider/provider.dart';
-import 'package:gitmago/features/auth/data/repositories/auth_repository.dart';
-import 'package:gitmago/features/auth/data/models/login_request.dart';
+import 'package:gitmago/core/theme/colors.dart';
+import 'package:gitmago/core/widgets/navigation_container.dart';
+import '../widgets/auth_text_field.dart';
+import '../widgets/auth_button.dart';
+import 'register_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,278 +13,278 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final AuthRepository _authRepository = AuthRepository();
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _isLoading = false;
+  bool _obscurePassword = true;
 
-  Future<void> _handleLogin() async {
-    final request = LoginRequest(
-      username: emailController.text,
-      password: passwordController.text,
-    );
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
-    final success = await _authRepository.login(request);
+  void _handleLogin() {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+      });
 
-    if (success) {
-      Provider.of<NavigationProvider>(
-        context,
-        listen: false,
-      ).setRoute('/main', context);
-    } else {
-      // Show error message
-      showDialog(
-        context: context,
-        builder:
-            (context) => AlertDialog(
-              title: Text('로그인 실패'),
-              content: Text('아이디 또는 비밀번호가 잘못되었습니다.'),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: Text('확인'),
-                ),
-              ],
-            ),
-      );
+      // TODO: Implement login logic with BLoC
+      Future.delayed(const Duration(seconds: 2), () {
+        setState(() {
+          _isLoading = false;
+        });
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const NavigationContainerScreen(),
+          ),
+        );
+      });
     }
+  }
+
+  void _navigateToRegister() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const RegisterPage()),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      body: SingleChildScrollView(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Column(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 50),
+
+                // Logo and Title
+                _buildHeader(),
+
+                const SizedBox(height: 20),
+
+                // Login Form
+                _buildLoginForm(),
+
+                const SizedBox(height: 32),
+
+                // Login Button
+                AuthButton(
+                  text: '로그인',
+                  onPressed: _isLoading ? null : _handleLogin,
+                  isLoading: _isLoading,
+                ),
+
+                const SizedBox(height: 24),
+
+                // Divider
+                _buildDivider(),
+
+                const SizedBox(height: 24),
+
+                // GitHub Login
+                _buildGitHubLoginButton(),
+
+                const SizedBox(height: 32),
+
+                // Sign Up Link
+                _buildSignUpLink(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeader() {
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                AppColors.primaryColor,
+                AppColors.primaryColor.withValues(alpha: 0.8),
+              ],
+            ),
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.primaryColor.withValues(alpha: 0.3),
+                blurRadius: 20,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          child: const Icon(Icons.code, size: 40, color: Colors.white),
+        ),
+        const SizedBox(height: 24),
+        RichText(
+          text: TextSpan(
             children: [
-              Expanded(
-                flex: 10,
-                child: Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.only(bottom: 20),
-                  decoration: BoxDecoration(
-                    color: AppColors.secondaryColor,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: "GIT",
-                              style: TextStyle(
-                                fontSize: 65,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.primaryColor,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "MAGO",
-                              style: TextStyle(
-                                fontSize: 65,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.textColor2,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Text(
-                        "개발 실력을 한 단계 업그레이드",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.textColor2,
-                        ),
-                      ),
-                      const SizedBox(height: 30),
-                    ],
-                  ),
+              TextSpan(
+                text: "GIT",
+                style: TextStyle(
+                  fontSize: 45,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.primaryColor,
                 ),
               ),
-              Expanded(
-                flex: 10,
-                child: Container(
-                  // color: Colors.amber,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                    child: Column(
-                      children: [
-                        CustomTextFormField(
-                          hintText: '이메일',
-                          controller: emailController,
-                        ),
-                        const SizedBox(height: 20),
-                        CustomTextFormField(
-                          hintText: '비밀번호',
-                          obscureText: true,
-                          controller: passwordController,
-                        ),
-                        const SizedBox(height: 20),
-                        AuthButton(text: '로그인', onPressed: _handleLogin),
-                        const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                CustomSnackbar.show(
-                                  context,
-                                  "beta. 아이디 찾기 기능은 현재 구현되지 않았습니다.",
-                                );
-                              },
-                              child: Text(
-                                "아이디 찾기",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
-                            ),
-                            Text(" | ", style: TextStyle(fontSize: 12)),
-                            GestureDetector(
-                              onTap: () {
-                                CustomSnackbar.show(
-                                  context,
-                                  "beta. 비밀번호 찾기 기능은 현재 구현되지 않았습니다.",
-                                );
-                              },
-                              child: Text(
-                                "비밀번호 찾기",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          color: AppColors.textColorOpacity,
-                          thickness: 0.5,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Text(
-                          "간편 로그인",
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: AppColors.textColorOpacity,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Divider(
-                          color: AppColors.textColorOpacity,
-                          thickness: 0.5,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 10,
-                child: Container(
-                  // color: Colors.amber,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 10),
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black87,
-                            minimumSize: const Size(double.infinity, 50),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/github_logo.png',
-                                scale: 20,
-                                color: Colors.white,
-                              ),
-                              SizedBox(width: 10),
-                              Text(
-                                'GitHub로 로그인',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const Spacer(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "회원이 아니신가요?",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.textColorOpacity,
-                              ),
-                            ),
-                            InkWell(
-                              highlightColor: Colors.transparent,
-                              splashColor: Colors.transparent,
-                              onTap: () {
-                                Navigator.pushNamed(context, '/register');
-                              },
-                              child: Text(
-                                "회원가입하러 가기",
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.textColorOpacity,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).viewInsets.bottom,
-                          ),
-                          child: const SizedBox(height: 50),
-                        ),
-                      ],
-                    ),
-                  ),
+              TextSpan(
+                text: "MAGO",
+                style: TextStyle(
+                  fontSize: 45,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.grey[800],
                 ),
               ),
             ],
           ),
         ),
+        Text(
+          '개발자들을 위한 코드 리뷰 플랫폼',
+          style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLoginForm() {
+    return Column(
+      children: [
+        AuthTextField(
+          controller: _emailController,
+          label: '이메일',
+          hint: 'your.email@example.com',
+          keyboardType: TextInputType.emailAddress,
+          prefixIcon: Icons.email_outlined,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return '이메일을 입력해주세요';
+            }
+            if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+              return '올바른 이메일 형식이 아닙니다';
+            }
+            return null;
+          },
+        ),
+        const SizedBox(height: 20),
+        AuthTextField(
+          controller: _passwordController,
+          label: '비밀번호',
+          hint: '비밀번호를 입력하세요',
+          obscureText: _obscurePassword,
+          prefixIcon: Icons.lock_outlined,
+          suffixIcon: IconButton(
+            icon: Icon(
+              _obscurePassword ? Icons.visibility : Icons.visibility_off,
+              color: Colors.grey[600],
+            ),
+            onPressed: () {
+              setState(() {
+                _obscurePassword = !_obscurePassword;
+              });
+            },
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return '비밀번호를 입력해주세요';
+            }
+            if (value.length < 6) {
+              return '비밀번호는 6자 이상이어야 합니다';
+            }
+            return null;
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDivider() {
+    return Row(
+      children: [
+        Expanded(child: Divider(color: Colors.grey[300])),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            '또는',
+            style: TextStyle(color: Colors.grey[600], fontSize: 14),
+          ),
+        ),
+        Expanded(child: Divider(color: Colors.grey[300])),
+      ],
+    );
+  }
+
+  Widget _buildGitHubLoginButton() {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey[300]!),
       ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          onTap: () {
+            // TODO: Implement GitHub login
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/github_logo.png',
+                  width: 24,
+                  height: 24,
+                ),
+                const SizedBox(width: 12),
+                const Text(
+                  'GitHub로 로그인',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSignUpLink() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          '계정이 없으신가요? ',
+          style: TextStyle(color: Colors.grey[600], fontSize: 14),
+        ),
+        GestureDetector(
+          onTap: _navigateToRegister,
+          child: Text(
+            '회원가입',
+            style: TextStyle(
+              color: AppColors.primaryColor,
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

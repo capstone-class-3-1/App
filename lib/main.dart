@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:gitmago/app.dart';
-import 'package:gitmago/providers/navigation_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:gitmago/features/splash/presentation/pages/splash_page.dart';
+import 'package:gitmago/core/theme/colors.dart';
 
-/* issue test */
+void main() {
+  runApp(const MyApp());
+}
 
-Future<void> main() async {
-  // .env 파일 로드
-  await dotenv.load(fileName: ".env");
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) => NavigationProvider(),
-        ), // Provider 등록
-      ],
-      child: const GitmagoApp(),
-    ),
-  );
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(scaffoldBackgroundColor: AppColors.backgroundColor),
+      home: SplashScreen(),
+    );
+  }
 }
